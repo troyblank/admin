@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta charset="UTF-8">
+	<meta name="description" content="Blank family admin.">
+	<meta http-equiv="content-language" content="en-us">
+	<meta
+		http-equiv="Content-Security-Policy"
+		content="
+			script-src 'self' 'unsafe-inline' 'unsafe-eval';
+			img-src *.cloudfront.net 'self' data:;
+			style-src *.googleapis.com 'self';
+			connect-src 'self';
+			font-src *.gstatic.com;
+			worker-src blob:;
+			object-src none;
+		"
+	>
+	<style>
+		body, HTML { margin: 0; height: 100% }
+	</style>
+</head>
+<body>
+	<div id="root"></div>
+	<script type="module" src="/src/index.tsx"></script>
+</body>
+</html>
