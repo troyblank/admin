@@ -1,12 +1,18 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { HelloWorld } from './components'
+import { ChangePasswordPage, HomePage, SignInPage } from './pages'
 
 const Router = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path={'/'} element={<HelloWorld />} />
+				<Route path={'/signin'} element={<SignInPage />} />
+			</Routes>
+			<Routes>
+				<Route path={'/changePassword'} element={<ChangePasswordPage />} />
+			</Routes>
+			<Routes>
+				<Route path={'/'} element={<HomePage />} />
 			</Routes>
 		</BrowserRouter>
 	)
