@@ -3,26 +3,28 @@ import { Amplify, Auth } from 'aws-amplify'
 import { AuthContextType, AttemptToSignInType } from '../types'
 
 Amplify.configure({
-    Auth: {
+	Auth: {
 		region: 'us-west-2',
 		userPoolId: 'us-west-2_2MIJDuwNb',
 		userPoolWebClientId: 'vhhhksehmohvv090pmvuok8i1',
-		authenticationFlowType: 'USER_PASSWORD_AUTH'
-    }
+		authenticationFlowType: 'USER_PASSWORD_AUTH',
+	},
 })
 
-export const AuthContext = createContext<AuthContextType>( {} )
+export const AuthContext = createContext<AuthContextType>({
+	attemptToSignIn: () => new Promise((_, reject) => reject('Auth Context not initiated')),
+})
 
 type PropsType = {
     children: ReactElement,
 }
 
-export const AuthProvider: React.FC<PropsType> = ( { children } ) => {
-    const attemptToSignIn: AttemptToSignInType = ( userName, password ) => new Promise((reslove, reject) => {
-        Auth.signIn(userName, password).then((user) => {
-            reslove(user)
-        })
-    })
+export const AuthProvider: React.FC<PropsType> = ({ children }) => {
+	const attemptToSignIn: AttemptToSignInType = (userName, password) => new Promise((resolve) => {
+		Auth.signIn(userName, password).then((user) => {
+			resolve(user)
+		})
+	})
 
 	return (
 		<AuthContext.Provider value={{attemptToSignIn}}>
@@ -31,4 +33,4 @@ export const AuthProvider: React.FC<PropsType> = ( { children } ) => {
 	)
 }
 
-export const useAuth = (): AuthContextType => useContext( AuthContext )
+export const useAuth = (): AuthContextType => useContext(AuthContext)
