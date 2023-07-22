@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, SyntheticEvent } from 'react'
 import { useAuth } from '../../contexts'
 import { SIGN_IN_HEADER } from './constants'
 
 export const SignInForm = () => {
 	const { attemptToSignIn } = useAuth()
-	const [userName, setUserName] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
+	const [userName, setUserName] = useState<string>('')
+	const [password, setPassword] = useState<string>('')
 
-	const onSignIn = (e: Event) => {
-		attemptToSignIn( userName, password ).then((user) => {
+	const onSignIn = (event: SyntheticEvent): void => {
+		attemptToSignIn(userName, password).then((user) => {
+			// eslint-disable-next-line no-console
 			console.log(user)
 		})
 
-        e.preventDefault();
-    };
+		event.preventDefault()
+	}
 
 	return (
 		<form method={'post'} onSubmit={onSignIn}>
