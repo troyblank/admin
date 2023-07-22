@@ -6,6 +6,9 @@ export default defineConfig( () => {
 		build: {
 			sourcemap: true,
 		},
+		define: {
+			global: {}, // https://github.com/aws/aws-amplify/issues/678
+		},
 		server: {
 			port: 8000,
 		},
