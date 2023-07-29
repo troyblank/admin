@@ -11,6 +11,9 @@
 .idea
 *.iml
 
+# Unit testing
+/coverage
+
 # Misc
 .DS_Store
 .env

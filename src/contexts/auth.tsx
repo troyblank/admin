@@ -12,7 +12,7 @@ Amplify.configure({
 })
 
 export const AuthContext = createContext<AuthContextType>({
-	attemptToSignIn: () => new Promise((_, reject) => reject('Auth Context not initiated')),
+	attemptToSignIn: /* istanbul ignore next */ () => new Promise((_, reject) => reject('Auth Context not initiated')),
 })
 
 type PropsType = {
@@ -21,9 +21,11 @@ type PropsType = {
 
 export const AuthProvider: React.FC<PropsType> = ({ children }) => {
 	const attemptToSignIn: AttemptToSignInType = (userName, password) => new Promise((resolve) => {
-		Auth.signIn(userName, password).then((user) => {
-			resolve(user)
-		})
+		Auth.signIn(userName, password).then(
+			/* istanbul ignore next */
+			(user) => {
+				resolve(user)
+			})
 	})
 
 	return (

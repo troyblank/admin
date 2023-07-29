@@ -1,6 +1,11 @@
 import React, { useState, SyntheticEvent } from 'react'
 import { useAuth } from '../../contexts'
-import { SIGN_IN_HEADER } from './constants'
+import {
+	PASSWORD_ID,
+	SIGN_IN_HEADER,
+	SUBMIT_LABEL,
+	USER_NAME_ID,
+} from './constants'
 
 export const SignInForm = () => {
 	const { attemptToSignIn } = useAuth()
@@ -20,26 +25,26 @@ export const SignInForm = () => {
 		<form method={'post'} onSubmit={onSignIn}>
 			<h1>{ SIGN_IN_HEADER }</h1>
 			<div>
-				<label htmlFor={'username'}>Username:</label>
+				<label htmlFor={USER_NAME_ID}>Username:</label>
 				<input
-					id={'username'}
 					type={'text'}
-					name={'username'}
+					id={USER_NAME_ID}
+					name={USER_NAME_ID}
 					value={userName}
-					onChange={(e) => setUserName(e.target.value)}
+					onChange={({ target }) => setUserName(target.value)}
 				/>
 			</div>
 			<div>
-				<label htmlFor={'password'}>Password:</label>
+				<label htmlFor={PASSWORD_ID}>Password:</label>
 				<input
-					id={'password'}
 					type={'password'}
-					name={'password'}
+					id={PASSWORD_ID}
+					name={PASSWORD_ID}
 					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					onChange={({ target }) => setPassword(target.value)}
 				/>
 			</div>
-			<button type={'submit'}>Submit</button>
+			<button type={'submit'}>{SUBMIT_LABEL}</button>
 		</form>
 	)
 }
