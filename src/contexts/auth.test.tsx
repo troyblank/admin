@@ -36,7 +36,7 @@ describe('Use Auth', () => {
 		const userName: string = chance.name()
 		const password: string = chance.word()
 
-		jest.spyOn(Auth, 'signIn').mockResolvedValue({})
+		jest.spyOn(Auth, 'signIn')
 
 		const { getByTestId } = render(<AuthProvider>
 			<AuthTestComponent
