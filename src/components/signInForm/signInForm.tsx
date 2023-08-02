@@ -1,5 +1,8 @@
 import React, { useState, SyntheticEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { UserType } from '../../types'
 import { useAuth } from '../../contexts'
+import { CHANGE_PASSWORD_PATH } from '../../utils'
 import {
 	PASSWORD_ID,
 	SIGN_IN_HEADER,
@@ -8,14 +11,19 @@ import {
 } from './constants'
 
 export const SignInForm = () => {
+	const navigate = useNavigate()
 	const { attemptToSignIn } = useAuth()
 	const [userName, setUserName] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
+	// const [redirectsToNewPasswordPage, setRedirectsToNewPasswordPage] = useState<boolean>(false)
 
 	const onSignIn = (event: SyntheticEvent): void => {
-		attemptToSignIn(userName, password).then((user) => {
-			// eslint-disable-next-line no-console
-			console.log(user)
+		attemptToSignIn(userName, password).then((user: UserType) => {
+			const { needsNewPassword } = user
+
+			if(needsNewPassword) {
+				navigate(CHANGE_PASSWORD_PATH)
+			}
 		})
 
 		event.preventDefault()
