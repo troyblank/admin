@@ -1,6 +1,6 @@
-import React, { createContext, useContext, ReactElement } from 'react'
+import React, { createContext, useContext, useState, ReactElement } from 'react'
 import { Amplify, Auth } from 'aws-amplify'
-import { AuthContextType, AttemptToSignInType } from '../types'
+import { AuthContextType, AttemptToSignInType, UserType } from '../types'
 import { extractUserInformationFromAmplifySignIn } from '../utils'
 
 Amplify.configure({
@@ -21,15 +21,22 @@ type PropsType = {
 }
 
 export const AuthProvider: React.FC<PropsType> = ({ children }) => {
+	const [user, setUser] = useState<UserType | undefined>()
+
 	const attemptToSignIn: AttemptToSignInType = (userName, password) => new Promise((resolve) => {
 		Auth.signIn(userName, password).then(
 			/* istanbul ignore next */
-			(user) => resolve(extractUserInformationFromAmplifySignIn(user)),
+			(user) => {
+				const extractedUser: UserType = extractUserInformationFromAmplifySignIn(user)
+
+				setUser(extractedUser)
+				resolve(extractedUser)
+			},
 		)
 	})
 
 	return (
-		<AuthContext.Provider value={{attemptToSignIn}}>
+		<AuthContext.Provider value={{attemptToSignIn, user}}>
 			{children}
 		</AuthContext.Provider>
 	)

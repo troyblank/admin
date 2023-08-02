@@ -6,5 +6,6 @@ export enum REQUIRED_USER_FIELDS {
 export type UserType = {
     isValid: boolean,
     needsNewPassword: boolean,
-    requiredAttributes: REQUIRED_USER_FIELDS[]
+    requiredAttributes: REQUIRED_USER_FIELDS[],
+    userName: string
 }

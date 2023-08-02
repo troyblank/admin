@@ -1,3 +1,3 @@
-export * from './changePassword'
 export * from './home'
+export * from './profile'
 export * from './signIn'
