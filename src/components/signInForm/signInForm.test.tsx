@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import * as ReactRouterDom from 'react-router-dom'
-import * as Contexts from '../../contexts/auth'
+import * as AuthContext from '../../contexts/auth'
 import Chance from 'chance'
 import {
 	PASSWORD_ID,
@@ -18,7 +18,7 @@ describe('Sign In Form', () => {
 	it('should be able to attempt to sign a user that needs a new password', () => {
 		const attemptToSignIn = jest.fn().mockResolvedValue({ needsNewPassword: true })
 
-		jest.spyOn(Contexts, 'useAuth').mockImplementation(() => ({
+		jest.spyOn(AuthContext, 'useAuth').mockImplementation(() => ({
 			attemptToSignIn,
 		}) as any)
 

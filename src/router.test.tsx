@@ -1,10 +1,14 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import Chance from 'chance'
+import { mockUser } from './mocks'
 import { SIGN_IN_HEADER } from './components/signInForm/constants'
-import { CHANGE_PASSWORD_PATH, HOME_PATH, SIGN_IN_PATH } from './utils'
-import Router from './router'
+import * as AuthContext from './contexts/auth'
+import { HOME_PATH, PROFILE_PATH, SIGN_IN_PATH } from './utils'
+import { Router } from './router'
 
 describe('Router', () => {
+	const chance = new Chance()
 	const protocol: string = 'https:'
 	const productionHost: string = 'admin.troyblank.com'
 
@@ -38,11 +42,20 @@ describe('Router', () => {
 		expect(getByText(SIGN_IN_HEADER)).toBeInTheDocument()
 	})
 
-	it('should render the change password page', async() => {
-		window.location.pathname = CHANGE_PASSWORD_PATH
+	it('should render the profile page', async() => {
+		window.location.pathname = PROFILE_PATH
+
+		const userName: string = chance.name()
+
+		jest.spyOn(AuthContext, 'useAuth').mockImplementation(() => ({
+			user: {
+				...mockUser(),
+				userName,
+			},
+		}) as any)
 
 		const { getByText } = render(<Router />)
 
-		expect(getByText('you must change your password boi')).toBeInTheDocument()
+		expect(getByText(`Hello, ${userName}`)).toBeInTheDocument()
 	})
 })
