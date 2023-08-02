@@ -1,6 +1,7 @@
 import React, { createContext, useContext, ReactElement } from 'react'
 import { Amplify, Auth } from 'aws-amplify'
 import { AuthContextType, AttemptToSignInType } from '../types'
+import { extractUserInformationFromAmplifySignIn } from '../utils'
 
 Amplify.configure({
 	Auth: {
@@ -23,9 +24,8 @@ export const AuthProvider: React.FC<PropsType> = ({ children }) => {
 	const attemptToSignIn: AttemptToSignInType = (userName, password) => new Promise((resolve) => {
 		Auth.signIn(userName, password).then(
 			/* istanbul ignore next */
-			(user) => {
-				resolve(user)
-			})
+			(user) => resolve(extractUserInformationFromAmplifySignIn(user)),
+		)
 	})
 
 	return (

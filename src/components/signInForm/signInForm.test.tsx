@@ -1,31 +1,28 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
+import * as ReactRouterDom from 'react-router-dom'
 import * as Contexts from '../../contexts/auth'
 import Chance from 'chance'
 import {
 	PASSWORD_ID,
-	SIGN_IN_HEADER,
 	SUBMIT_LABEL,
 	USER_NAME_ID,
 } from './constants'
 import { SignInForm } from './signInForm'
 
+jest.mock('react-router-dom')
 
 describe('Sign In Form', () => {
 	const chance = new Chance()
 
-	it('should be able to render', () => {
-		const { getByText } = render(<SignInForm />)
-
-		expect(getByText(SIGN_IN_HEADER)).toBeInTheDocument()
-	})
-
-	it('should be able to attempt to sign a user in', () => {
-		const attemptToSignIn = jest.fn().mockResolvedValue({})
+	it('should be able to attempt to sign a user that needs a new password', () => {
+		const attemptToSignIn = jest.fn().mockResolvedValue({ needsNewPassword: true })
 
 		jest.spyOn(Contexts, 'useAuth').mockImplementation(() => ({
 			attemptToSignIn,
 		}) as any)
+
+		jest.spyOn(ReactRouterDom, 'useNavigate').mockReturnValue(jest.fn())
 
 		const userName: string = chance.email()
 		const password: string = chance.word()
