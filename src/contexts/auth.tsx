@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useState, ReactElement } from 'react'
 import { Amplify, Auth } from 'aws-amplify'
-import { AuthContextType, AttemptToSignInType, UserType } from '../types'
+import {
+	AuthContextType,
+	AttemptToCompleteNewUserType,
+	AttemptToSignInType,
+	UserType,
+} from '../types'
 import { extractUserInformationFromAmplifySignIn } from '../utils'
 
 Amplify.configure({
@@ -14,6 +19,7 @@ Amplify.configure({
 
 export const AuthContext = createContext<AuthContextType>({
 	attemptToSignIn: /* istanbul ignore next */ () => new Promise((_, reject) => reject('Auth Context not initiated')),
+	attemptToCompleteNewUser: /* istanbul ignore next */ () => new Promise((_, reject) => reject('Auth Context not initiated')),
 })
 
 type PropsType = {
@@ -21,22 +27,52 @@ type PropsType = {
 }
 
 export const AuthProvider: React.FC<PropsType> = ({ children }) => {
+	const [cognitoUser, setCognitoUser] = useState<any | undefined>()
 	const [user, setUser] = useState<UserType | undefined>()
 
-	const attemptToSignIn: AttemptToSignInType = (userName, password) => new Promise((resolve) => {
-		Auth.signIn(userName, password).then(
-			/* istanbul ignore next */
-			(user) => {
-				const extractedUser: UserType = extractUserInformationFromAmplifySignIn(user)
+	const getCognitoUser = async () => {
+		/* istanbul ignore next */
+		if (cognitoUser) {
+			return cognitoUser
+		}
 
-				setUser(extractedUser)
-				resolve(extractedUser)
-			},
-		)
-	})
+		return await Auth.currentAuthenticatedUser()
+	}
+
+	const attemptToSignIn: AttemptToSignInType = async(userName, password) => {
+		let extractedUser: UserType | undefined
+
+		try {
+			const cognitoUser: any = await Auth.signIn(userName, password)
+			extractedUser = extractUserInformationFromAmplifySignIn(cognitoUser)
+
+			setCognitoUser(cognitoUser)
+			setUser(extractedUser)
+		} catch (error) {
+			alert(error)
+		}
+
+		return extractedUser
+	}
+
+	
+	const attemptToCompleteNewUser: AttemptToCompleteNewUserType = async (password, attributes) => {
+		let extractedUser: UserType | undefined
+
+		try {
+			const cognitoUser: any = await getCognitoUser()
+			const authorizedCognitoUser: any = await Auth.completeNewPassword(cognitoUser, password, attributes)
+			extractedUser = extractUserInformationFromAmplifySignIn(authorizedCognitoUser)
+
+			setCognitoUser(authorizedCognitoUser)
+			setUser(extractedUser)
+		} catch(error) {
+			alert(error)
+		}
+	}
 
 	return (
-		<AuthContext.Provider value={{attemptToSignIn, user}}>
+		<AuthContext.Provider value={{attemptToCompleteNewUser, attemptToSignIn, user}}>
 			{children}
 		</AuthContext.Provider>
 	)
