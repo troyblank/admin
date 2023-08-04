@@ -1,0 +1,6 @@
+export const COMPLETE_NEW_USER_GREETING: string = 'Hello, new user.'
+export const COMPLETE_NEW_USER_INSTRUCTIONS: string = 'Please fill out the required fields to complete your account.'
+export const FIRST_NAME_ID: string = 'firstName'
+export const LAST_NAME_ID: string = 'lastName'
+export const PASSWORD_ID: string = 'password'
+export const SUBMIT_LABEL: string = 'submit'

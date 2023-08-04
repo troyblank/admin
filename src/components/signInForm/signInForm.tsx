@@ -2,7 +2,7 @@ import React, { useState, SyntheticEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserType } from '../../types'
 import { useAuth } from '../../contexts'
-import { PROFILE_PATH } from '../../utils'
+import { COMPLETE_USER_PATH, HOME_PATH } from '../../utils'
 import {
 	PASSWORD_ID,
 	SIGN_IN_HEADER,
@@ -19,10 +19,12 @@ export const SignInForm = () => {
 
 	const onSignIn = (event: SyntheticEvent): void => {
 		attemptToSignIn(userName, password).then((user: UserType) => {
-			const { needsNewPassword } = user
+			const { isValid } = user
 
-			if (needsNewPassword) {
-				navigate(PROFILE_PATH)
+			if (isValid) {
+				navigate(HOME_PATH)
+			} else {
+				navigate(COMPLETE_USER_PATH)
 			}
 		})
 
