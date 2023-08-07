@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactElement } from 'react'
+import React, { createContext, useContext, useEffect, useState, ReactElement } from 'react'
 import { Amplify, Auth } from 'aws-amplify'
 import {
 	AuthContextType,
@@ -29,8 +29,16 @@ type PropsType = {
 export const AuthProvider: React.FC<PropsType> = ({ children }) => {
 	const [cognitoUser, setCognitoUser] = useState<any | undefined>()
 	const [user, setUser] = useState<UserType | undefined>()
+	
+	useEffect(() => {	
+		getCognitoUser().then((cognitoUser) => {
+			if (cognitoUser) {
+				setUser(extractUserInformationFromAmplifySignIn(cognitoUser))
+			}
+		})
+	}, [])
 
-	const getCognitoUser = async () => {
+	const getCognitoUser = async (): Promise<any> => {
 		/* istanbul ignore next */
 		if (cognitoUser) {
 			return cognitoUser

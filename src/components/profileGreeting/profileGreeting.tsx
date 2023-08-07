@@ -6,7 +6,9 @@ export const ProfileGreeting = () => {
 
 	if (user) {
 		return (
-			<h1>Hello, {user?.userName}</h1>
+			<>
+				<h1>Hello, {user?.fullName}</h1>
+			</>
 		)
 	}
 
