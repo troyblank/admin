@@ -10,16 +10,13 @@
 		content="
 			script-src 'self' 'unsafe-inline' 'unsafe-eval';
 			img-src *.cloudfront.net 'self' data:;
-			style-src *.googleapis.com 'self';
+			style-src *.googleapis.com 'self' 'unsafe-inline';
 			connect-src *.amazonaws.com 'self';
 			font-src *.gstatic.com;
 			worker-src blob:;
 			object-src none;
 		"
 	>
-	<style>
-		body, HTML { margin: 0; height: 100% }
-	</style>
 </head>
 <body>
 	<div id="root"></div>
