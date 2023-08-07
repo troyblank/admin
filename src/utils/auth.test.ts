@@ -16,7 +16,9 @@ describe('Auth Utils', () => {
 		}
 
 		expect(extractUserInformationFromAmplifySignIn(cognitoLikeUser)).toStrictEqual({
+			fullName: ``,
 			isValid: false,
+			jwtToken: undefined,
 			needsNewPassword: true,
 			requiredAttributes: Object.values(REQUIRED_USER_FIELDS),
 			userName: username,
@@ -24,17 +26,31 @@ describe('Auth Utils', () => {
 	})
 
 	it('should extract a user object that is valid', () => {
-		const username = chance.name()
+		const username: string = chance.name()
+		const firstName: string = chance.first()
+		const lastName: string = chance.last()
+		const jwtToken: string = chance.guid()
 		const cognitoLikeUser: any = {
+			attributes: {
+				given_name: firstName,
+				family_name: lastName,
+			},
 			challengeName: 'NO_CHALLENGE',
 			challengeParam: {
 				requiredAttributes: [],
+			},
+			signInUserSession: {
+				idToken: {
+					jwtToken,
+				},
 			},
 			username,
 		}
 
 		expect(extractUserInformationFromAmplifySignIn(cognitoLikeUser)).toStrictEqual({
+			fullName: `${firstName} ${lastName}`,
 			isValid: true,
+			jwtToken,
 			needsNewPassword: false,
 			requiredAttributes: [],
 			userName: username,

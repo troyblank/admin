@@ -45,11 +45,15 @@ describe('Use Auth', () => {
 		)
 	}
 
+	beforeEach(() => {
+		jest.spyOn(Auth, 'currentAuthenticatedUser').mockImplementation(() => Promise.resolve())
+	})
+
 	it('should allow attempts to sign in', async () => {
 		const signInUserName: string = chance.name()
 		const signInPassword: string = chance.word()
 
-		const username: string = chance.name()
+		const username: string = chance.first()
 		jest.spyOn(Auth, 'signIn').mockResolvedValue({
 			challengeName: 'NO_CHALLENGE',
 			challengeParam: {
