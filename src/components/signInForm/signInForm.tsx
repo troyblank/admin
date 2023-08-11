@@ -15,7 +15,6 @@ export const SignInForm = () => {
 	const { attemptToSignIn } = useAuth()
 	const [userName, setUserName] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
-	// const [redirectsToNewPasswordPage, setRedirectsToNewPasswordPage] = useState<boolean>(false)
 
 	const onSignIn = (event: SyntheticEvent): void => {
 		attemptToSignIn(userName, password).then((user: UserType) => {

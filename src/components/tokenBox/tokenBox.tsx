@@ -6,7 +6,11 @@ export const TokenBox = () => {
 
 	if (user) {
 		return (
-			<textarea defaultValue={user?.jwtToken} cols={100} rows={15} />
+			<>
+				<label htmlFor={'jwtToken'}>JWT Token:</label>
+				<br />
+				<textarea  id={'jwtToken'} defaultValue={user?.jwtToken} cols={100} rows={15} />
+			</>
 		)
 	}
 

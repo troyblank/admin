@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { RequiresAuthentication } from './components'
 import {
 	HOME_PATH,
 	COMPLETE_USER_PATH,
@@ -17,7 +18,11 @@ export const Router = () => {
 			<Routes>
 				<Route path={SIGN_IN_PATH} element={<SignInPage />} />
 				<Route path={COMPLETE_USER_PATH} element={<CompleteNewUserPage />} />
-				<Route path={HOME_PATH} element={<HomePage />} />
+				<Route path={HOME_PATH} element={
+					<RequiresAuthentication>
+						<HomePage />
+					</RequiresAuthentication>
+				} />
 			</Routes>
 		</BrowserRouter>
 	)
