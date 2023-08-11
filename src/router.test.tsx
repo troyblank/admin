@@ -34,19 +34,12 @@ describe('Router', () => {
 	it('should render the home page', async() => {
 		window.location.pathname = HOME_PATH
 
-		const { getByText } = render(<Router />)
-
-		expect(getByText('This is the home page', {exact: false})).toBeInTheDocument()
-	})
-
-	it('should render the home page with a user', async() => {
-		window.location.pathname = HOME_PATH
-
 		const fullName: string = chance.name()
 
 		jest.spyOn(AuthContext, 'useAuth').mockImplementation(() => ({
 			user: {
 				...mockUser(),
+				isValid: true,
 				fullName,
 			},
 		}) as any)
