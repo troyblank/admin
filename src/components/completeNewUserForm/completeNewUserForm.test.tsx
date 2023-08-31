@@ -1,8 +1,8 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import Chance from 'chance'
-import * as ReactRouterDom from 'react-router-dom'
-import * as AuthContext from '../../contexts/auth'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '../../contexts/auth'
 import {
 	FIRST_NAME_ID,
 	LAST_NAME_ID,
@@ -11,19 +11,24 @@ import {
 } from './constants'
 import { CompleteNewUserForm } from './completeNewUserForm'
 
-jest.mock('react-router-dom')
+jest.mock('next/navigation')
+jest.mock('../../contexts/auth')
 
 describe('Complete New User Form', () => {
 	const chance = new Chance()
 
+	beforeEach(() => {
+		jest.mocked(useRouter).mockReturnValue({
+			push: jest.fn(),
+		} as any)
+	})
+
 	it('should be able to attempt to complete a new user account', () => {
 		const attemptToCompleteNewUser = jest.fn().mockResolvedValue({})
 
-		jest.spyOn(AuthContext, 'useAuth').mockImplementation(() => ({
+		jest.mocked(useAuth).mockReturnValue({
 			attemptToCompleteNewUser,
-		}) as any)
-
-		jest.spyOn(ReactRouterDom, 'useNavigate').mockReturnValue(jest.fn())
+		} as any)
 
 		const firstName: string = chance.first()
 		const lastName: string = chance.first()

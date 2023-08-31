@@ -2,17 +2,18 @@ import React from 'react'
 import { GetServerSidePropsContext } from 'next'
 import { UserType } from '../types'
 import { AuthProvider } from '../contexts'
+import { ProfileGreeting, TokenBox } from '../components'
 import { getServerSidePropsOrRedirect } from '../utils'
-import { CompleteNewUserForm } from '../components'
 
 export const getServerSideProps: any = async (serverSideContext: GetServerSidePropsContext) => getServerSidePropsOrRedirect(serverSideContext)
 
-export const CompleteNewUserPage = ({ user }: { user: UserType }) => (
+export const HomePage = ({ user }: { user: UserType }) => (
 	<AuthProvider user={user}>
 		<>
-			<CompleteNewUserForm />
+			<ProfileGreeting />
+			<TokenBox />
 		</>
 	</AuthProvider>
 )
 
-export default CompleteNewUserPage
+export default HomePage

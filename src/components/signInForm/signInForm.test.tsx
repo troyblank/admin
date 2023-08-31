@@ -1,8 +1,8 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Chance from 'chance'
-import * as ReactRouterDom from 'react-router-dom'
-import * as AuthContext from '../../contexts/auth'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '../../contexts/auth'
 import {
 	PASSWORD_ID,
 	SUBMIT_LABEL,
@@ -10,28 +10,33 @@ import {
 } from './constants'
 import { SignInForm } from './signInForm'
 
-jest.mock('react-router-dom')
+jest.mock('next/navigation')
+jest.mock('../../contexts/auth')
 
 describe('Sign In Form', () => {
 	const chance = new Chance()
 
+	beforeEach(() => {
+		jest.mocked(useRouter).mockReturnValue({
+			push: jest.fn(),
+		} as any)
+	})
+
 	it('should be able to attempt to sign a user that needs to complete their account', () => {
 		const attemptToSignIn = jest.fn().mockResolvedValue({ isValid: false })
 
-		jest.spyOn(AuthContext, 'useAuth').mockImplementation(() => ({
+		jest.mocked(useAuth).mockReturnValue({
 			attemptToSignIn,
-		}) as any)
-
-		jest.spyOn(ReactRouterDom, 'useNavigate').mockReturnValue(jest.fn())
+		} as any)
 
 		const userName: string = chance.email()
 		const password: string = chance.word()
-		const { container,  getByText } = render(<SignInForm />)
+		const { container } = render(<SignInForm />)
 
 		fireEvent.change(container.querySelector(`input[name="${USER_NAME_ID}"]`) as Element, { target: { value: userName } })
 		fireEvent.change(container.querySelector(`input[name="${PASSWORD_ID}"]`) as Element, { target: { value: password } })
 
-		fireEvent.click(getByText(SUBMIT_LABEL))
+		fireEvent.click(screen.getByText(SUBMIT_LABEL))
 
 		expect(attemptToSignIn).toBeCalledWith(userName, password)
 	})
@@ -39,11 +44,9 @@ describe('Sign In Form', () => {
 	it('should be able to attempt to sign a user that needs to complete their account', () => {
 		const attemptToSignIn = jest.fn().mockResolvedValue({ isValid: true })
 
-		jest.spyOn(AuthContext, 'useAuth').mockImplementation(() => ({
+		jest.mocked(useAuth).mockReturnValue({
 			attemptToSignIn,
-		}) as any)
-
-		jest.spyOn(ReactRouterDom, 'useNavigate').mockReturnValue(jest.fn())
+		} as any)
 
 		const userName: string = chance.email()
 		const password: string = chance.word()

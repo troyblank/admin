@@ -46,7 +46,7 @@ describe('Use Auth', () => {
 	}
 
 	beforeEach(() => {
-		jest.spyOn(Auth, 'currentAuthenticatedUser').mockImplementation(() => Promise.resolve())
+		jest.spyOn(Auth, 'currentAuthenticatedUser').mockResolvedValue({})
 	})
 
 	it('should allow attempts to sign in', async () => {
@@ -62,7 +62,7 @@ describe('Use Auth', () => {
 			username,
 		})
 
-		const { getByTestId } =  render(<AuthProvider>
+		const { getByTestId } =  render(<AuthProvider user={null}>
 			<AuthTestComponent
 				signInUserName={signInUserName}
 				signInPassword={signInPassword}
@@ -85,7 +85,7 @@ describe('Use Auth', () => {
 		jest.spyOn(Auth, 'signIn').mockRejectedValue(error)
 		jest.spyOn(window, 'alert')
 
-		const { getByTestId } =  render(<AuthProvider>
+		const { getByTestId } =  render(<AuthProvider user={null}>
 			<AuthTestComponent
 				signInUserName={signInUserName}
 				signInPassword={signInPassword}
@@ -115,7 +115,7 @@ describe('Use Auth', () => {
 		jest.spyOn(Auth, 'completeNewPassword').mockResolvedValue(cognitoUser)
 		jest.spyOn(Auth, 'currentAuthenticatedUser').mockResolvedValue(cognitoUser)
 
-		const { getByTestId } =  render(<AuthProvider>
+		const { getByTestId } =  render(<AuthProvider user={null}>
 			<AuthTestComponent
 				completeUserPassword={completeUserPassword}
 				completeUserAttributes={completeUserAttributes}
@@ -147,7 +147,7 @@ describe('Use Auth', () => {
 		jest.spyOn(Auth, 'completeNewPassword').mockRejectedValue(error)
 		jest.spyOn(Auth, 'currentAuthenticatedUser').mockResolvedValue(cognitoUser)
 
-		const { getByTestId } =  render(<AuthProvider>
+		const { getByTestId } = render(<AuthProvider user={null}>
 			<AuthTestComponent
 				completeUserPassword={completeUserPassword}
 				completeUserAttributes={completeUserAttributes}
