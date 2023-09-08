@@ -19,7 +19,7 @@ type PropsType = {
     children: ReactElement,
 }
 
-export const AuthProvider: React.FC<PropsType> = ({ user: userToSet = null, children }) => {
+export const AuthProvider: React.FC<PropsType> = ({ user: userToSet, children }) => {
 	const [cognitoUser, setCognitoUser] = useState<any | undefined>()
 	const [user, setUser] = useState<UserType | null>(userToSet)
 
