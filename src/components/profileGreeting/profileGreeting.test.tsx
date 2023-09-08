@@ -2,8 +2,10 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import Chance from 'chance'
 import { mockUser } from '../../mocks'
-import * as AuthContext from '../../contexts/auth'
+import { useAuth } from '../../contexts/auth'
 import { ProfileGreeting } from './profileGreeting'
+
+jest.mock('../../contexts/auth')
 
 describe('Profile Greeting', () => {
 	const chance = new Chance()
@@ -11,12 +13,12 @@ describe('Profile Greeting', () => {
 	it('should be able to render a profile greeting', () => {
 		const fullName: string = chance.name()
 
-		jest.spyOn(AuthContext, 'useAuth').mockImplementation(() => ({
+		jest.mocked(useAuth).mockReturnValue({
 			user: {
 				...mockUser(),
 				fullName,
 			},
-		}) as any)
+		} as any)
 
 		const { getByText } = render(<ProfileGreeting />)
 
@@ -24,7 +26,7 @@ describe('Profile Greeting', () => {
 	})
 
 	it('should not render a profile greeting if there is no user', () => {
-		jest.spyOn(AuthContext, 'useAuth').mockImplementation(() => ({}) as any)
+		jest.mocked(useAuth).mockReturnValue({} as any)
 
 		const { container } = render(<ProfileGreeting />)
 

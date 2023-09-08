@@ -1,29 +1,40 @@
 {
-	"compilerOptions": {
-		"target": "ES2020",
-		"baseUrl": "./",
-		"outDir": "./dist",
-		"module": "es6",
-		"allowJs": true,
-		"declaration": true,
-		"sourceMap": true,
-		"inlineSources": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"noImplicitReturns": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
-		"jsx": "react",
-	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"index.d.ts"
-	],
-	"exclude": [
-		"node_modules"
-	],
+  "compilerOptions": {
+    "target": "ES2020",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "module": "esnext",
+    "allowJs": true,
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["node", "jest", "@testing-library/jest-dom"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "index.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

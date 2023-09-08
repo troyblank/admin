@@ -1,7 +1,7 @@
 import React, { useState, SyntheticEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { UserType } from '../../types'
-import { useAuth } from '../../contexts'
+import { useAuth } from '../../contexts/auth'
 import { COMPLETE_USER_PATH, HOME_PATH } from '../../utils'
 import {
 	PASSWORD_ID,
@@ -11,19 +11,17 @@ import {
 } from './constants'
 
 export const SignInForm = () => {
-	const navigate = useNavigate()
+	const { push } = useRouter()
 	const { attemptToSignIn } = useAuth()
 	const [userName, setUserName] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 
 	const onSignIn = (event: SyntheticEvent): void => {
-		attemptToSignIn(userName, password).then((user: UserType) => {
-			const { isValid } = user
-
-			if (isValid) {
-				navigate(HOME_PATH)
+		attemptToSignIn(userName, password).then((user: UserType | null) => {
+			if (user !== null && user?.isValid) {
+				push(HOME_PATH)
 			} else {
-				navigate(COMPLETE_USER_PATH)
+				push(COMPLETE_USER_PATH)
 			}
 		})
 

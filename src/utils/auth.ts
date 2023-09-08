@@ -19,7 +19,27 @@ export const extractUserInformationFromAmplifySignIn = (user: any): UserType => 
 		isValid,
 		jwtToken: signInUserSession?.idToken?.jwtToken,
 		needsNewPassword,
-		requiredAttributes: challengeParam?.requiredAttributes,
+		requiredAttributes: challengeParam?.requiredAttributes ?? [],
 		userName: username,
 	}
+}
+
+export const getAuthenticationSession = async (AWSAmplifyAuth: any): Promise<UserType | null> => {
+	let user: UserType | null = null
+
+	await AWSAmplifyAuth.currentAuthenticatedUser().then((cognitoUser: any) => {
+		user =  extractUserInformationFromAmplifySignIn(cognitoUser)
+	}).catch(() => {
+		user = null
+	})
+	
+	return user
+}
+
+export const isUserAuthenticated = (user: UserType | null): boolean => {
+	if(user === null) {
+		return false
+	}
+	
+	return user?.isValid
 }

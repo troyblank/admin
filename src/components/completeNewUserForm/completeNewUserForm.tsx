@@ -1,5 +1,5 @@
 import React, { useState, SyntheticEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { HOME_PATH } from '../../utils'
 import { useAuth } from '../../contexts'
 import {
@@ -12,7 +12,7 @@ import {
 } from './constants'
 
 export const CompleteNewUserForm = () => {
-	const navigate = useNavigate()
+	const { push } = useRouter()
 	const { attemptToCompleteNewUser } = useAuth()
 	const [firstName, setFirstName] = useState<string>('')
 	const [lastName, setLastName] = useState<string>('')
@@ -22,7 +22,7 @@ export const CompleteNewUserForm = () => {
 		attemptToCompleteNewUser(password, {
 			family_name: lastName,
 			given_name: firstName,
-		}).then(() => navigate(HOME_PATH))
+		}).then(() => push(HOME_PATH))
 
 		event.preventDefault()
 	}
