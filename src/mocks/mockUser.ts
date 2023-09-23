@@ -3,7 +3,7 @@ import { UserType, REQUIRED_USER_FIELDS } from '../types'
 
 const chance = new Chance()
 
-export const mockUser = (): UserType => {
+export const mockUser = (overrides: Partial<UserType> = {}): UserType => {
 	const fullName: string = `${chance.first()} ${chance.last()}`
 	const isValid: boolean = chance.bool()
 	const requiredValues: REQUIRED_USER_FIELDS[] = Object.values(REQUIRED_USER_FIELDS) as REQUIRED_USER_FIELDS[]
@@ -16,5 +16,6 @@ export const mockUser = (): UserType => {
 		needsNewPassword: isValid ? false : chance.bool(),
 		requiredAttributes:  isValid ? [] : chance.pickset(requiredValues, chance.natural({ max: requiredValuesLength })),
 		userName: chance.name(),
+		...overrides,
 	}
 }

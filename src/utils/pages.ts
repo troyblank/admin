@@ -9,20 +9,20 @@ export const getServerSidePropsOrRedirect: (serverSideContext: GetServerSideProp
 
 	const respondWithUnauthenticated = (): null => {
 		const { res: response } = serverSideContext
-    
+
 		response.setHeader('location', SIGN_IN_PATH)
 		response.statusCode = 302
 		response.end()
 
 		return null
 	}
-	
+
 	try {
 		user = await getAuthenticationSession(Auth)
 	} catch(error) {
 		respondWithUnauthenticated()
 	}
-    
+
 	if (isUserAuthenticated(user)) {
 		return { props: { user } }
 	} else {

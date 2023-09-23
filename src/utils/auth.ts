@@ -11,7 +11,7 @@ export const extractUserInformationFromAmplifySignIn = (user: any): UserType => 
 		username,
 	} = user
 	const needsNewPassword: boolean = challengeName === NEEDS_NEW_PASSWORD_CHALLENGE_NAME
-	const hasRequiredFieldsToComplete: boolean = challengeParam?.requiredAttributes.length > 0
+	const hasRequiredFieldsToComplete: boolean = challengeParam?.requiredAttributes?.length > 0
 	const isValid: boolean = !needsNewPassword || !hasRequiredFieldsToComplete
 
 	return {
@@ -28,7 +28,7 @@ export const getAuthenticationSession = async (AWSAmplifyAuth: any): Promise<Use
 	let user: UserType | null = null
 
 	await AWSAmplifyAuth.currentAuthenticatedUser().then((cognitoUser: any) => {
-		user =  extractUserInformationFromAmplifySignIn(cognitoUser)
+		user = extractUserInformationFromAmplifySignIn(cognitoUser)
 	}).catch(() => {
 		user = null
 	})
