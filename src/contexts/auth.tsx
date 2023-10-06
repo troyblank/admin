@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<PropsType> = ({ user: userToSet, children })
 
 		try {
 			const cognitoUser: any = await Auth.signIn(userName, password)
-			extractedUser = extractUserInformationFromAmplifySignIn(cognitoUser) && null
+			extractedUser = extractUserInformationFromAmplifySignIn(cognitoUser)
 
 			setCognitoUser(cognitoUser)
 			setUser(extractedUser)
@@ -48,7 +48,6 @@ export const AuthProvider: React.FC<PropsType> = ({ user: userToSet, children })
 		return extractedUser
 	}
 
-	
 	const attemptToCompleteNewUser: AttemptToCompleteNewUserType = async (password, attributes) => {
 		let extractedUser: UserType | undefined
 
