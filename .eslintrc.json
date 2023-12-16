@@ -1,3 +1,8 @@
+
 {
-    "extends": "@troyblank/eslint-config-troyblank/configs/typescript.js"
+	"extends": [
+		"@troyblank/eslint-config-troyblank/configs/react.js",
+		"@troyblank/eslint-config-troyblank/configs/jest.js",
+		"@troyblank/eslint-config-troyblank/configs/typescript.js"
+	]
 }

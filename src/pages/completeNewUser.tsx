@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { GetServerSidePropsContext } from 'next'
 import { UserType } from '../types'
 import { AuthProvider } from '../contexts'
@@ -9,9 +9,9 @@ export const getServerSideProps: any = async (serverSideContext: GetServerSidePr
 
 export const CompleteNewUserPage = ({ user }: { user: UserType }) => (
 	<AuthProvider user={user}>
-		<>
+		<Fragment>
 			<CompleteNewUserForm />
-		</>
+		</Fragment>
 	</AuthProvider>
 )
 

@@ -42,7 +42,9 @@ export const AuthProvider: React.FC<PropsType> = ({ user: userToSet, children })
 			setCognitoUser(cognitoUser)
 			setUser(extractedUser)
 		} catch (error) {
+			// alert is only because there is no ui error handling in place yet
 			alert(error)
+			throw new Error(String(error))
 		}
 
 		return extractedUser
@@ -59,7 +61,9 @@ export const AuthProvider: React.FC<PropsType> = ({ user: userToSet, children })
 			setCognitoUser(authorizedCognitoUser)
 			setUser(extractedUser)
 		} catch(error) {
+			// alert is only because there is no ui error handling in place yet
 			alert(error)
+			throw new Error(String(error))
 		}
 	}
 
