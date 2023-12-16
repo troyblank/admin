@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react'
+import React, { useState, Fragment, SyntheticEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { HOME_PATH } from '../../utils'
 import { useAuth } from '../../contexts'
@@ -28,7 +28,7 @@ export const CompleteNewUserForm = () => {
 	}
 
 	return (
-		<>
+		<Fragment>
 			<h1>{COMPLETE_NEW_USER_GREETING}</h1>
 			<p>{COMPLETE_NEW_USER_INSTRUCTIONS}</p>
 			<form method={'post'} onSubmit={onChangePassword}>
@@ -64,6 +64,6 @@ export const CompleteNewUserForm = () => {
 				</div>
 				<button type={'submit'}>{SUBMIT_LABEL}</button>
 			</form>
-		</>
+		</Fragment>
 	)
 }

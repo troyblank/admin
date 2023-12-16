@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useAuth } from '../../contexts'
 
 export const ProfileGreeting = () => {
@@ -6,9 +6,9 @@ export const ProfileGreeting = () => {
 
 	if (user) {
 		return (
-			<>
+			<Fragment>
 				<h1>Hello, {user?.fullName}</h1>
-			</>
+			</Fragment>
 		)
 	}
 
