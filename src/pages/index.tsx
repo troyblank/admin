@@ -5,7 +5,7 @@ import { AuthProvider } from '../contexts'
 import { ProfileGreeting, TokenBox } from '../components'
 import { getServerSidePropsOrRedirect } from '../utils'
 
-export const getServerSideProps: any = async (serverSideContext: GetServerSidePropsContext) => getServerSidePropsOrRedirect(serverSideContext)
+export const getServerSideProps = async (serverSideContext: GetServerSidePropsContext) => getServerSidePropsOrRedirect(serverSideContext)
 
 export const HomePage = ({ user }: { user: UserType }) => (
 	<AuthProvider user={user}>

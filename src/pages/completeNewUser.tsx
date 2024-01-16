@@ -5,7 +5,7 @@ import { AuthProvider } from '../contexts'
 import { getServerSidePropsOrRedirect } from '../utils'
 import { CompleteNewUserForm } from '../components'
 
-export const getServerSideProps: any = async (serverSideContext: GetServerSidePropsContext) => getServerSidePropsOrRedirect(serverSideContext)
+export const getServerSideProps = async (serverSideContext: GetServerSidePropsContext) => getServerSidePropsOrRedirect(serverSideContext)
 
 export const CompleteNewUserPage = ({ user }: { user: UserType }) => (
 	<AuthProvider user={user}>

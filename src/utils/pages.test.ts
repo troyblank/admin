@@ -1,19 +1,17 @@
-// import Chance from 'chance'
 import { UserType } from '../types'
 import { mockUser } from '../mocks'
-import { getAuthenticationSession, isUserAuthenticated, SIGN_IN_PATH } from './'
+import { getRefreshedAuthenticationSession, isUserAuthenticated, SIGN_IN_PATH } from './'
 import { getServerSidePropsOrRedirect } from './pages'
 
 jest.mock('./')
 
 describe('Pages Utils', () => {
-	// 	const chance = new Chance()
 
 	it('should be able to get server side props', async() => {
 		const setHeader = jest.fn()
 		const user: UserType = mockUser()
 
-		jest.mocked(getAuthenticationSession).mockResolvedValue(user)
+		jest.mocked(getRefreshedAuthenticationSession).mockResolvedValue(user)
 		jest.mocked(isUserAuthenticated).mockReturnValue(true)
 
 		expect(await getServerSidePropsOrRedirect({ res: {
@@ -29,7 +27,7 @@ describe('Pages Utils', () => {
 		const setHeader = jest.fn()
 		const user: UserType = mockUser()
 
-		jest.mocked(getAuthenticationSession).mockResolvedValue(user)
+		jest.mocked(getRefreshedAuthenticationSession).mockResolvedValue(user)
 		jest.mocked(isUserAuthenticated).mockReturnValue(false)
 
 		expect(await getServerSidePropsOrRedirect({ res: {
@@ -45,8 +43,8 @@ describe('Pages Utils', () => {
 		const setHeader = jest.fn()
 		const user: UserType = mockUser()
 
-		jest.mocked(getAuthenticationSession).mockResolvedValue(user)
-		jest.mocked(getAuthenticationSession).mockRejectedValue(null)
+		jest.mocked(getRefreshedAuthenticationSession).mockResolvedValue(user)
+		jest.mocked(getRefreshedAuthenticationSession).mockRejectedValue(null)
 
 		expect(await getServerSidePropsOrRedirect({ res: {
 			setHeader,
