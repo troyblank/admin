@@ -1,8 +1,9 @@
-import { UserType } from '../types'
+import { Auth } from '@aws-amplify/auth'
+import { CognitoUserType, CognitoUserSessionType, UserType } from '../types'
 
 export const NEEDS_NEW_PASSWORD_CHALLENGE_NAME = 'NEW_PASSWORD_REQUIRED'
 
-export const extractUserInformationFromAmplifySignIn = (user: any): UserType => {
+export const extractUserInformationFromCognito = (user: CognitoUserType, refreshedAccessToken?: string): UserType => {
 	const {
 		attributes,
 		challengeName,
@@ -11,28 +12,34 @@ export const extractUserInformationFromAmplifySignIn = (user: any): UserType => 
 		username,
 	} = user
 	const needsNewPassword: boolean = challengeName === NEEDS_NEW_PASSWORD_CHALLENGE_NAME
-	const hasRequiredFieldsToComplete: boolean = challengeParam?.requiredAttributes?.length > 0
+	const hasRequiredFieldsToComplete: boolean = challengeParam?.requiredAttributes ? challengeParam.requiredAttributes.length > 0 : false
 	const isValid: boolean = !needsNewPassword || !hasRequiredFieldsToComplete
 
 	return {
 		fullName: isValid ? `${attributes?.given_name} ${attributes?.family_name}` : '',
 		isValid,
-		jwtToken: signInUserSession?.idToken?.jwtToken,
+		jwtToken: refreshedAccessToken ? refreshedAccessToken : signInUserSession?.idToken?.jwtToken,
 		needsNewPassword,
 		requiredAttributes: challengeParam?.requiredAttributes ?? [],
 		userName: username,
 	}
 }
 
-export const getAuthenticationSession = async (AWSAmplifyAuth: any): Promise<UserType | null> => {
+export const getRefreshedAuthenticationSession = async (AWSAmplifyAuth: typeof Auth): Promise<UserType | null> => {
 	let user: UserType | null = null
 
-	await AWSAmplifyAuth.currentAuthenticatedUser().then((cognitoUser: any) => {
-		user = extractUserInformationFromAmplifySignIn(cognitoUser)
-	}).catch(() => {
+	try {
+		const cognitoUser: CognitoUserType = await AWSAmplifyAuth.currentAuthenticatedUser()
+		// currentSession takes care of refreshing the token if it is expired.
+		const { accessToken }: CognitoUserSessionType = await AWSAmplifyAuth.currentSession() as unknown as CognitoUserSessionType
+
+		user = extractUserInformationFromCognito(cognitoUser, accessToken.jwtToken)
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.error('User not authenticated.', error)
 		user = null
-	})
-	
+	}
+
 	return user
 }
 
@@ -40,6 +47,6 @@ export const isUserAuthenticated = (user: UserType | null): boolean => {
 	if(user === null) {
 		return false
 	}
-	
+
 	return user?.isValid
 }

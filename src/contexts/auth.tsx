@@ -4,9 +4,10 @@ import {
 	AuthContextType,
 	AttemptToCompleteNewUserType,
 	AttemptToSignInType,
+	CognitoUserType,
 	UserType,
 } from '../types'
-import { extractUserInformationFromAmplifySignIn } from '../utils'
+import { extractUserInformationFromCognito } from '../utils'
 
 export const AuthContext = createContext<AuthContextType>({
 	attemptToSignIn: /* istanbul ignore next */ () => new Promise((_, reject) => reject('Auth Context not initiated')),
@@ -20,10 +21,10 @@ type PropsType = {
 }
 
 export const AuthProvider: React.FC<PropsType> = ({ user: userToSet, children }) => {
-	const [cognitoUser, setCognitoUser] = useState<any | undefined>()
+	const [cognitoUser, setCognitoUser] = useState<CognitoUserType | undefined>()
 	const [user, setUser] = useState<UserType | null>(userToSet)
 
-	const getCognitoUser = async (): Promise<any> => {
+	const getCognitoUser = async (): Promise<CognitoUserType> => {
 		/* istanbul ignore next */
 		if (cognitoUser) {
 			return cognitoUser
@@ -36,8 +37,8 @@ export const AuthProvider: React.FC<PropsType> = ({ user: userToSet, children })
 		let extractedUser: UserType | null = null
 
 		try {
-			const cognitoUser: any = await Auth.signIn(userName, password)
-			extractedUser = extractUserInformationFromAmplifySignIn(cognitoUser)
+			const cognitoUser: CognitoUserType = await Auth.signIn(userName, password)
+			extractedUser = extractUserInformationFromCognito(cognitoUser)
 
 			setCognitoUser(cognitoUser)
 			setUser(extractedUser)
@@ -54,9 +55,9 @@ export const AuthProvider: React.FC<PropsType> = ({ user: userToSet, children })
 		let extractedUser: UserType | undefined
 
 		try {
-			const cognitoUser: any = await getCognitoUser()
-			const authorizedCognitoUser: any = await Auth.completeNewPassword(cognitoUser, password, attributes)
-			extractedUser = extractUserInformationFromAmplifySignIn(authorizedCognitoUser)
+			const cognitoUser: CognitoUserType = await getCognitoUser()
+			const authorizedCognitoUser: CognitoUserType = await Auth.completeNewPassword(cognitoUser, password, attributes)
+			extractedUser = extractUserInformationFromCognito(authorizedCognitoUser)
 
 			setCognitoUser(authorizedCognitoUser)
 			setUser(extractedUser)

@@ -19,9 +19,7 @@ describe('Use Auth', () => {
 
 		jest.spyOn(Auth, 'signIn').mockResolvedValue({
 			challengeName: 'NO_CHALLENGE',
-			challengeParam: {
-				requiredAttributes: [],
-			},
+			challengeParam: {},
 			username,
 		})
 
