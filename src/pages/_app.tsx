@@ -7,7 +7,7 @@ Amplify.configure({
 		region: 'us-west-2',
 		userPoolId: 'us-west-2_2MIJDuwNb',
 		userPoolWebClientId: 'vhhhksehmohvv090pmvuok8i1',
-		authenticationFlowType: 'USER_PASSWORD_AUTH',
+		authenticationFlowType: 'USER_SRP_AUTH',
 	},
 	ssr: true,
 })
