@@ -1,15 +1,14 @@
-import { REQUIRED_USER_FIELDS } from '../'
+type JWT = {
+    toString: () => string;
+}
 
-export type CognitoUserSessionType = { accessToken: { jwtToken: string } }
-export type CognitoUserType = {
-	attributes: {
-		given_name: string,
-		family_name: string,
-	},
-	challengeName: string,
-	challengeParam?: {
-		requiredAttributes?: REQUIRED_USER_FIELDS[],
-	},
-	signInUserSession: { idToken: { jwtToken: string } },
-	username: string,
+type AuthTokens = {
+    idToken?: JWT;
+    accessToken: JWT;
+}
+
+export type AuthSession = {
+    tokens?: AuthTokens;
+    identityId?: string;
+    userSub?: string;
 }

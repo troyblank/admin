@@ -1,6 +1,6 @@
-import React, { useState, SyntheticEvent } from 'react'
+import React, { useState, type SyntheticEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { UserType } from '../../types'
+import { type SignInOutput } from '../../types'
 import { useAuth } from '../../contexts/auth'
 import { COMPLETE_USER_PATH, HOME_PATH } from '../../utils'
 import {
@@ -13,12 +13,12 @@ import {
 export const SignInForm = () => {
 	const { push } = useRouter()
 	const { attemptToSignIn } = useAuth()
-	const [userName, setUserName] = useState<string>('')
+	const [username, setUserName] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 
 	const onSignIn = (event: SyntheticEvent): void => {
-		attemptToSignIn(userName, password).then((user: UserType | null) => {
-			if (user !== null && user?.isValid) {
+		attemptToSignIn({ username, password }).then(({ isUserComplete }: SignInOutput) => {
+			if (isUserComplete) {
 				push(HOME_PATH)
 			} else {
 				push(COMPLETE_USER_PATH)
@@ -37,7 +37,7 @@ export const SignInForm = () => {
 					type={'text'}
 					id={USER_NAME_ID}
 					name={USER_NAME_ID}
-					value={userName}
+					value={username}
 					onChange={({ target }) => setUserName(target.value)}
 				/>
 			</div>

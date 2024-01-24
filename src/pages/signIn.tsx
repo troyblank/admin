@@ -1,9 +1,9 @@
 import React from 'react'
-import { UserType } from '../types'
+import { type User } from '../types'
 import { AuthProvider } from '../contexts'
 import { SignInForm } from '../components'
 
-export const SignInPage = ({ user }: { user: UserType }) => (
+export const SignInPage = ({ user }: { user: User }) => (
 	<AuthProvider user={user}>
 		<SignInForm />
 	</AuthProvider>

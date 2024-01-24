@@ -1,0 +1,12 @@
+{
+	"aws_project_region": "us-west-2",
+	"auth": {
+		"plugins": {
+			"awsCognitoAuthPlugin": {
+				"UserPoolId": "us-west-2_2MIJDuwNb",
+				"WebClientId": "vhhhksehmohvv090pmvuok8i1",
+				"authenticationFlowType": "USER_SRP_AUTH"
+			}
+		}
+	}
+}

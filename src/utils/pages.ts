@@ -1,11 +1,9 @@
-import { withSSRContext } from "aws-amplify"
-import { GetServerSidePropsContext } from 'next'
-import { UserType } from '../types'
-import { getRefreshedAuthenticationSession, isUserAuthenticated, SIGN_IN_PATH } from './'
+import { type GetServerSidePropsContext } from 'next'
+import { type User } from '../types'
+import { getUserFromAmplify, SIGN_IN_PATH } from './'
 
-export const getServerSidePropsOrRedirect: (serverSideContext: GetServerSidePropsContext) => Promise<{ props: { user: UserType | null } } | null> = async (serverSideContext: GetServerSidePropsContext) => {
-	const { Auth } = withSSRContext(serverSideContext)
-	let user: UserType | null = null
+export const getServerSidePropsOrRedirect: (serverSideContext: GetServerSidePropsContext) => Promise<{ props: { user: User | null } } | null> = async (serverSideContext: GetServerSidePropsContext) => {
+	let user: User | null = null
 
 	const respondWithUnauthenticated = (): null => {
 		const { res: response } = serverSideContext
@@ -18,14 +16,8 @@ export const getServerSidePropsOrRedirect: (serverSideContext: GetServerSideProp
 	}
 
 	try {
-		user = await getRefreshedAuthenticationSession(Auth)
+		user = await getUserFromAmplify(serverSideContext)
 	} catch(error) {
-		respondWithUnauthenticated()
-	}
-
-	if (isUserAuthenticated(user)) {
-		return { props: { user } }
-	} else {
 		respondWithUnauthenticated()
 	}
 
