@@ -37,9 +37,11 @@ export const AuthProvider: React.FC<PropsType> = ({ user, children }) => {
 			const { isSignedIn, nextStep }: SignInOutput = await signIn({ username, password })
 			const { signInStep } = nextStep
 			const isUserRequiredToComplete: boolean = USER_NOT_COMPLETED_STEPS.includes(signInStep)
-			const isStepUnaccountedFor: boolean = !isUserComplete && !isUserRequiredToComplete
 
 			isUserComplete = signInStep === USER_COMPLETE_STEP
+
+			const isStepUnaccountedFor: boolean = !isUserComplete && !isUserRequiredToComplete
+
 			isError = !isSignedIn && !isUserRequiredToComplete
 
 			if (isStepUnaccountedFor) {

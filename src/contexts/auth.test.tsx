@@ -94,7 +94,7 @@ describe('Use Auth', () => {
 		})
 	})
 
-	it('should handle any errors with attempts to sign in', async () => {
+	it('should handle any errors with attempts to complete a new user', async () => {
 		const password: string = chance.word()
 		const userAttributes: UserAttributes = {
 			family_name: chance.last(),
