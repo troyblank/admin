@@ -1,15 +1,20 @@
-import { UserType } from '../'
+import { type SignInInput } from 'aws-amplify/auth'
+import { type User } from '../'
 
-export type RequiredNewUserAttributesType = {
-    family_name: string,
-    given_name: string,
+export type UserAttributes = {
+	family_name: string,
+	given_name: string,
 }
 
-export type AttemptToSignInType = (userName: string, password: string) => Promise<UserType | null>
-export type AttemptToCompleteNewUserType = (password: string, attributes: RequiredNewUserAttributesType) => Promise<any>
+export type SignInOutput = {
+	isUserComplete: boolean
+}
+
+export type AttemptToSignIn = ({ username, password }: SignInInput) => Promise<SignInOutput>
+export type AttemptToCompleteNewUser = (password: string, attributes: UserAttributes) => Promise<void>
 
 export type AuthContextType = {
-    attemptToCompleteNewUser: AttemptToCompleteNewUserType
-    attemptToSignIn: AttemptToSignInType,
-    user: UserType | null,
+	attemptToCompleteNewUser: AttemptToCompleteNewUser
+	attemptToSignIn: AttemptToSignIn,
+	user: User | null,
 }

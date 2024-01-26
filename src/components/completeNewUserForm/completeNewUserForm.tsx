@@ -40,6 +40,7 @@ export const CompleteNewUserForm = () => {
 						name={FIRST_NAME_ID}
 						value={firstName}
 						onChange={({ target }) => setFirstName(target.value)}
+						required={true}
 					/>
 				</div>
 				<div>
@@ -50,6 +51,7 @@ export const CompleteNewUserForm = () => {
 						name={LAST_NAME_ID}
 						value={lastName}
 						onChange={({ target }) => setLastName(target.value)}
+						required={true}
 					/>
 				</div>
 				<div>
@@ -60,6 +62,8 @@ export const CompleteNewUserForm = () => {
 						name={PASSWORD_ID}
 						value={password}
 						onChange={({ target }) => setPassword(target.value)}
+						required={true}
+						minLength={8}
 					/>
 				</div>
 				<button type={'submit'}>{SUBMIT_LABEL}</button>

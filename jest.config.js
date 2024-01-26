@@ -1,6 +1,6 @@
 const nextJest = require("next/jest");
 const createJestConfig = nextJest({
-  dir: "./",
+	dir: "./",
 });
 const customJestConfig = {
 	moduleDirectories: ["node_modules", "<rootDir>/"],
@@ -19,7 +19,7 @@ const customJestConfig = {
 	},
 	coveragePathIgnorePatterns: [
 		'index.ts',
-		'<rootDir>/src/mocks'
+		'<rootDir>/src/mocks',
 	],
 	// testMatch: [ '<rootDir>/src/someFile.test.tsx' ], //Left here intentionally to test single files easy
 };
