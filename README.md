@@ -1,5 +1,5 @@
 # Admin
-
+[![test](https://github.com/troyblank/admin/actions/workflows/test.yml/badge.svg)](https://github.com/troyblank/admin/actions/workflows/test.yml)
 Used to manage user accounts of AWS Cognito.
 
 ## Node.js configuration
