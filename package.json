@@ -13,17 +13,17 @@
 		"unit:once": "jest --maxWorkers=25%"
 	},
 	"dependencies": {
-		"@aws-amplify/adapter-nextjs": "1.0.12",
-		"@aws-amplify/auth": "6.0.12",
-		"aws-amplify": "6.0.12"
+		"@aws-amplify/adapter-nextjs": "1.0.13",
+		"@aws-amplify/auth": "6.0.13",
+		"aws-amplify": "6.0.13"
 	},
 	"devDependencies": {
 		"@testing-library/dom": "9.3.4",
-		"@testing-library/jest-dom": "6.2.0",
+		"@testing-library/jest-dom": "6.3.0",
 		"@testing-library/react": "14.1.2",
 		"@testing-library/react-hooks": "8.0.1",
 		"@testing-library/user-event": "14.5.2",
-		"@types/node": "20.11.5",
+		"@types/node": "20.11.7",
 		"@types/react": "18.2.48",
 		"@types/react-dom": "18.2.18",
 		"@types/react-router-dom": "5.3.3",
@@ -37,8 +37,8 @@
 		"next": "14.0.4",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"react-router-dom": "6.21.2",
-		"ts-jest": "29.1.1",
+		"react-router-dom": "6.21.3",
+		"ts-jest": "29.1.2",
 		"typescript": "5.3.3"
 	},
 	"author": "Troy Blank",
