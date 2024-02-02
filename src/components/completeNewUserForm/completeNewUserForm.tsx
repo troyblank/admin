@@ -66,6 +66,7 @@ export const CompleteNewUserForm = () => {
 						minLength={8}
 					/>
 				</div>
+				<br />
 				<button type={'submit'}>{SUBMIT_LABEL}</button>
 			</form>
 		</Fragment>
