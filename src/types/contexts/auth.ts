@@ -1,6 +1,7 @@
 import {
 	type SignInInput,
 	type ConfirmResetPasswordInput,
+	type UpdatePasswordInput,
 } from 'aws-amplify/auth'
 import { type User } from '../'
 
@@ -21,9 +22,11 @@ export type AttemptToSignIn = ({ username, password }: SignInInput) => Promise<S
 export type AttemptToResetPassword = (resetPasswordInput: ConfirmResetPasswordInput) => Promise<void>
 export type AttemptToResetPasswordCode = (username: string) => Promise<RestPasswordCodeOutput>
 export type AttemptToCompleteNewUser = (password: string, attributes: UserAttributes) => Promise<void>
+export type AttemptToChangePassword = ({ oldPassword, newPassword }: UpdatePasswordInput) => Promise<void>
 
 export type AuthContextType = {
-	attemptToCompleteNewUser: AttemptToCompleteNewUser
+	attemptToChangePassword: AttemptToChangePassword,
+	attemptToCompleteNewUser: AttemptToCompleteNewUser,
 	attemptToResetPassword: AttemptToResetPassword,
 	attemptToGetResetPasswordCode: AttemptToResetPasswordCode,
 	attemptToSignIn: AttemptToSignIn,
