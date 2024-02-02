@@ -1,3 +1,4 @@
+export * from './changePasswordForm'
 export * from './completeNewUserForm'
 export * from './forgotPasswordForm'
 export * from './profileGreeting'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Chance from 'chance'
 import { mockUser } from '../../mocks'
 import { useAuth } from '../../contexts/auth'
@@ -10,7 +10,7 @@ jest.mock('../../contexts/auth')
 describe('Token Box', () => {
 	const chance = new Chance()
 
-	it('should be able to render a token box', () => {
+	it('should be able to show and hide a token box', () => {
 		const jwtToken: string = chance.guid()
 
 		jest.mocked(useAuth).mockReturnValue({
@@ -20,9 +20,15 @@ describe('Token Box', () => {
 			},
 		} as any)
 
-		const { getByText } = render(<TokenBox />)
+		const { getByText, queryByText } = render(<TokenBox />)
+
+		fireEvent.click(getByText('Show token'))
 
 		expect(getByText(jwtToken)).toBeInTheDocument()
+
+		fireEvent.click(getByText('Hide token'))
+
+		expect(queryByText(jwtToken)).not.toBeInTheDocument()
 	})
 
 	it('should not render a token box if there is no user', () => {

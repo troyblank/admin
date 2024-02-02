@@ -4,10 +4,12 @@ import {
 	confirmResetPassword,
 	resetPassword,
 	signIn,
+	updatePassword,
 	type ConfirmResetPasswordInput,
 	type ResetPasswordOutput,
 	type SignInInput,
 	type SignInOutput,
+	type UpdatePasswordInput,
 } from 'aws-amplify/auth'
 import {
 	type AuthContextType,
@@ -17,6 +19,7 @@ import {
 } from '../types'
 
 export const AuthContext = createContext<AuthContextType>({
+	attemptToChangePassword: /* istanbul ignore next */ () => new Promise((_, reject) => reject('Auth Context not initiated')),
 	attemptToCompleteNewUser: /* istanbul ignore next */ () => new Promise((_, reject) => reject('Auth Context not initiated')),
 	attemptToResetPassword: /* istanbul ignore next */ () => new Promise((_, reject) => reject('Auth Context not initiated')),
 	attemptToGetResetPasswordCode: /* istanbul ignore next */ () => new Promise((_, reject) => reject('Auth Context not initiated')),
@@ -148,8 +151,30 @@ export const AuthProvider: React.FC<PropsType> = ({ user, children }) => {
 		}
 	}
 
+	const attemptToChangePassword = async(updatePasswordInput: UpdatePasswordInput) => {
+		let isError: boolean = false
+		let errorMessage: string = DEFAULT_ERROR_MESSAGE
+
+		try {
+			await updatePassword(updatePasswordInput)
+		} catch (error) {
+			if (error instanceof Error) {
+				errorMessage = error.message
+			}
+
+			isError = true
+		}
+
+		if (isError) {
+			// alert is only because there is no ui error handling in place yet
+			alert(errorMessage)
+			throw new Error(errorMessage)
+		}
+	}
+
 	return (
 		<AuthContext.Provider value={{
+			attemptToChangePassword,
 			attemptToCompleteNewUser,
 			attemptToGetResetPasswordCode,
 			attemptToResetPassword,

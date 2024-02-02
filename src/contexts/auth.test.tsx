@@ -4,7 +4,9 @@ import {
 	confirmSignIn,
 	resetPassword,
 	signIn,
+	updatePassword,
 	type ConfirmResetPasswordInput,
+	type UpdatePasswordInput,
 } from 'aws-amplify/auth'
 import Chance from 'chance'
 import { type UserAttributes } from '../types'
@@ -42,8 +44,8 @@ describe('Use Auth', () => {
 	it('should handle any errors with attempts to sign in', async () => {
 		const username: string = chance.name()
 		const password: string = chance.word()
-
 		const error: string = chance.paragraph()
+
 		jest.mocked(signIn).mockRejectedValue(error)
 		jest.spyOn(window, 'alert')
 
@@ -104,8 +106,8 @@ describe('Use Auth', () => {
 			family_name: chance.last(),
 			given_name: chance.first(),
 		}
-
 		const error: string = chance.paragraph()
+
 		jest.mocked(confirmSignIn).mockRejectedValue(error)
 		jest.spyOn(window, 'alert')
 
@@ -181,8 +183,8 @@ describe('Use Auth', () => {
 			confirmationCode: chance.guid(),
 			newPassword: chance.word(),
 		}
-
 		const error: string = chance.paragraph()
+
 		jest.mocked(confirmResetPassword).mockRejectedValue(new Error(error))
 		jest.spyOn(window, 'alert')
 
@@ -191,5 +193,39 @@ describe('Use Auth', () => {
 		const { attemptToResetPassword } = result.current
 
 		expect(async() => await attemptToResetPassword(confirmResetPasswordInput)).rejects.toThrow(error)
+	})
+
+	it('should an attempt to change a password', async () => {
+		const updatePasswordInput: UpdatePasswordInput = {
+			oldPassword: chance.word(),
+			newPassword: chance.word(),
+		}
+
+		jest.mocked(updatePassword).mockResolvedValue({} as any)
+
+		const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider as any })
+
+		const { attemptToChangePassword } = result.current
+
+		attemptToChangePassword(updatePasswordInput)
+
+		expect(updatePassword).toHaveBeenCalledWith(updatePasswordInput)
+	})
+
+	it('should handle any errors with attempts to change a password', async () => {
+		const updatePasswordInput: UpdatePasswordInput = {
+			oldPassword: chance.word(),
+			newPassword: chance.word(),
+		}
+		const error: string = chance.paragraph()
+
+		jest.mocked(updatePassword).mockRejectedValue(new Error(error))
+		jest.spyOn(window, 'alert')
+
+		const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider as any })
+
+		const { attemptToChangePassword } = result.current
+
+		expect(async() => await attemptToChangePassword(updatePasswordInput)).rejects.toThrow(error)
 	})
 })

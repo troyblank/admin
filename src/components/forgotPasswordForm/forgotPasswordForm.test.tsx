@@ -23,7 +23,7 @@ describe('Forgot Password Form', () => {
 
 	it('should be able to attempt to get a reset password code and reset a password', async() => {
 		const attemptToGetResetPasswordCode = jest.fn().mockResolvedValue({ isPasswordResetCodeSent: true })
-		const attemptToResetPassword = jest.fn().mockResolvedValue({})
+		const attemptToResetPassword = jest.fn().mockResolvedValue(undefined)
 
 		jest.mocked(useAuth).mockReturnValue({
 			attemptToGetResetPasswordCode,
@@ -52,7 +52,7 @@ describe('Forgot Password Form', () => {
 
 	it('should be able to attempt to get a reset password code and reset a password with no redirect query param', async() => {
 		const attemptToGetResetPasswordCode = jest.fn().mockResolvedValue({ isPasswordResetCodeSent: true })
-		const attemptToResetPassword = jest.fn().mockResolvedValue({})
+		const attemptToResetPassword = jest.fn().mockResolvedValue(undefined)
 
 		jest.mocked(useSearchParams).mockReturnValue({ get: () => null } as any)
 		jest.mocked(useAuth).mockReturnValue({
