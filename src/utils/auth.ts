@@ -14,7 +14,7 @@ export const extractUserInformationFromAmplifyServerContext = async(amplifyConte
 	const { username }: GetCurrentUserOutput = await getCurrentUser(amplifyContextSpecification)
 	const { tokens }: AuthSession = await fetchAuthSession(amplifyContextSpecification)
 	const attributes: FetchUserAttributesOutput = await fetchUserAttributes(amplifyContextSpecification)
-	const jwtToken: string = String(tokens?.accessToken.toString())
+	const jwtToken: string = String(tokens?.idToken?.toString())
 
 	return {
 		fullName: `${attributes?.given_name} ${attributes?.family_name}`,
