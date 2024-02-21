@@ -25,7 +25,7 @@ describe('Auth Utils', () => {
 		})
 
 		jest.mocked(getCurrentUser).mockResolvedValue({ username } as any)
-		jest.mocked(fetchAuthSession).mockResolvedValue({ tokens: { accessToken: jwtToken } } as any)
+		jest.mocked(fetchAuthSession).mockResolvedValue({ tokens: { idToken: jwtToken } } as any)
 		jest.mocked(fetchUserAttributes).mockResolvedValue({ given_name: firstName, family_name: lastName } as any)
 
 		expect(await extractUserInformationFromAmplifyServerContext({} as any)).toStrictEqual(expectedUser)
