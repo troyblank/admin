@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Chance from 'chance'
 import { useSearchParams } from 'next/navigation'
@@ -38,7 +37,9 @@ describe('Forgot Password Form', () => {
 			fireEvent.click(getByText(SUBMIT_LABEL))
 		})
 
-		expect(getByText('A reset password confirmation code was just sent to your email.', { exact: false })).toBeInTheDocument()
+		await waitFor(() => {
+			expect(getByText('A reset password confirmation code was just sent to your email.', { exact: false })).toBeInTheDocument()
+		})
 
 		await waitFor(() => {
 			fireEvent.change(container.querySelector(`input[name="${CONFIRMATION_CODE_ID}"]`) as Element, { target: { value: String(chance.guid()) } })
@@ -47,7 +48,9 @@ describe('Forgot Password Form', () => {
 			fireEvent.click(getByText(SUBMIT_LABEL))
 		})
 
-		expect(getByText('Your password has been reset.')).toBeInTheDocument()
+		await waitFor(() => {
+			expect(getByText('Your password has been reset.')).toBeInTheDocument()
+		})
 	})
 
 	it('should be able to attempt to get a reset password code and reset a password with no redirect query param', async() => {
@@ -75,6 +78,8 @@ describe('Forgot Password Form', () => {
 			fireEvent.click(getByText(SUBMIT_LABEL))
 		})
 
-		expect(getByText('Your password has been reset.')).toBeInTheDocument()
+		await waitFor(() => {
+			expect(getByText('Your password has been reset.')).toBeInTheDocument()
+		})
 	})
 })

@@ -1,4 +1,4 @@
-import React, { useState, type SyntheticEvent } from 'react'
+import { useState, type SyntheticEvent } from 'react'
 import { useAuth } from '../../contexts/auth'
 import { NEW_PASSWORD_ID, OLD_PASSWORD_ID, SUBMIT_LABEL } from './constants'
 
