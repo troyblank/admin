@@ -6,6 +6,7 @@ const customJestConfig = {
 	moduleDirectories: ["node_modules", "<rootDir>/"],
 	testEnvironment: "jest-environment-jsdom",
 	moduleNameMapper:{"^uuid$": "uuid"},
+	setupFiles: ["<rootDir>/jest.polyfills.js"],
 	setupFilesAfterEnv: ["<rootDir>/config/jest/setup.js"],
 	collectCoverage: true,
 	coverageReporters: ['lcov', 'text-summary'],

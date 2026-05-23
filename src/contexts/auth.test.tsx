@@ -11,7 +11,7 @@ import {
 import Chance from 'chance'
 import { type UserAttributes } from '../types'
 // import { mockRequiredNewUserAttributes } from '../mocks'
-import { AuthProvider, useAuth } from './auth'
+import { AuthProvider, DEFAULT_ERROR_MESSAGE, useAuth } from './auth'
 
 jest.mock('aws-amplify/auth')
 
@@ -130,6 +130,17 @@ describe('Use Auth', () => {
 		expect(async() => await attemptToGetResetPasswordCode(chance.email())).rejects.toThrow(error)
 	})
 
+	it('should use the default error message when reset password code errors are not Error instances', async () => {
+		jest.mocked(resetPassword).mockRejectedValue('not an Error')
+		jest.spyOn(window, 'alert')
+
+		const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider as any })
+
+		const { attemptToGetResetPasswordCode } = result.current
+
+		expect(async() => await attemptToGetResetPasswordCode(chance.email())).rejects.toThrow(DEFAULT_ERROR_MESSAGE)
+	})
+
 	it('should handle any errors with attempts to get a reset password code', async () => {
 		jest.mocked(resetPassword).mockResolvedValue({
 			isPasswordReset: true,
@@ -195,6 +206,23 @@ describe('Use Auth', () => {
 		expect(async() => await attemptToResetPassword(confirmResetPasswordInput)).rejects.toThrow(error)
 	})
 
+	it('should use the default error message when reset password errors are not Error instances', async () => {
+		const confirmResetPasswordInput: ConfirmResetPasswordInput = {
+			username: chance.name(),
+			confirmationCode: chance.guid(),
+			newPassword: chance.word(),
+		}
+
+		jest.mocked(confirmResetPassword).mockRejectedValue('not an Error')
+		jest.spyOn(window, 'alert')
+
+		const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider as any })
+
+		const { attemptToResetPassword } = result.current
+
+		expect(async() => await attemptToResetPassword(confirmResetPasswordInput)).rejects.toThrow(DEFAULT_ERROR_MESSAGE)
+	})
+
 	it('should an attempt to change a password', async () => {
 		const updatePasswordInput: UpdatePasswordInput = {
 			oldPassword: chance.word(),
@@ -227,5 +255,21 @@ describe('Use Auth', () => {
 		const { attemptToChangePassword } = result.current
 
 		expect(async() => await attemptToChangePassword(updatePasswordInput)).rejects.toThrow(error)
+	})
+
+	it('should use the default error message when change password errors are not Error instances', async () => {
+		const updatePasswordInput: UpdatePasswordInput = {
+			oldPassword: chance.word(),
+			newPassword: chance.word(),
+		}
+
+		jest.mocked(updatePassword).mockRejectedValue('not an Error')
+		jest.spyOn(window, 'alert')
+
+		const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider as any })
+
+		const { attemptToChangePassword } = result.current
+
+		expect(async() => await attemptToChangePassword(updatePasswordInput)).rejects.toThrow(DEFAULT_ERROR_MESSAGE)
 	})
 })

@@ -1,4 +1,4 @@
-import React, { useState, Fragment, SyntheticEvent } from 'react'
+import { useState, Fragment, SyntheticEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { HOME_PATH } from '../../utils'
 import { useAuth } from '../../contexts'

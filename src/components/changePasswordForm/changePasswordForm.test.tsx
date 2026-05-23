@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Chance from 'chance'
 import { useAuth } from '../../contexts/auth'
@@ -31,6 +30,8 @@ describe('Change Password Form', () => {
 			fireEvent.click(getByText(SUBMIT_LABEL))
 		})
 
-		expect(getByText('Your password changed successfully!')).toBeInTheDocument()
+		await waitFor(() => {
+			expect(getByText('Your password changed successfully!')).toBeInTheDocument()
+		})
 	})
 })

@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import Chance from 'chance'
 import { useRouter } from 'next/navigation'
@@ -41,7 +40,7 @@ describe('Complete New User Form', () => {
 
 		fireEvent.click(getByText(SUBMIT_LABEL))
 
-		expect(attemptToCompleteNewUser).toBeCalledWith(password, {
+		expect(attemptToCompleteNewUser).toHaveBeenCalledWith(password, {
 			family_name: lastName,
 			given_name: firstName,
 		})

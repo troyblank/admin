@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 import { GetServerSidePropsContext } from 'next'
 import { type User } from '../types'
 import { AuthProvider } from '../contexts'
